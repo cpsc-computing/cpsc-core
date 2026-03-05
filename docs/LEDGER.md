@@ -239,4 +239,54 @@ Next action for Theme G (resume point):
 
 ---
 
+Session note – PAI + CGAD pack completion and Docker stack (March 4, 2026)
+--------------------------------------------------------------------------
+- Date: 2026-03-04
+- Context: Completed CGAD PAI pack scaffold, Docker containerization, and GHCR CI.
+- Changes completed:
+  - Completed all TypeScript modules for CGAD PAI pack (`pai/src/`):
+    - Hooks: plan-hook.ts, verify-hook.ts, learn-hook.ts
+    - Projection: cas-parser.ts (CAS-YAML with includes composition)
+    - MCP: server.ts (tool dispatch), resources.ts (read-only state views)
+    - Ledger: recorder.ts (SHA-256 chained JSONL), replay.ts (verify/filter/stats)
+  - Updated `pai/src/index.ts` with all module exports
+  - Created templates: `pai/templates/isc-to-cas.yaml`, `pai/templates/transcript.json`
+  - Created training data extraction script: `scripts/training/extract_training_data.py`
+  - Replaced WSL2 approach with cross-platform Docker stack:
+    - `pai/Dockerfile` (multi-stage Bun alpine build)
+    - `pai/docker-compose.yml` (pai-cgad + ollama GPU + chromadb services)
+    - `pai/.env.example`, `pai/.dockerignore`
+  - Added GitHub Actions CI: `.github/workflows/docker-publish.yml`
+    - Builds and pushes to `ghcr.io/bitconcepts/pai-cgad`
+    - Multi-arch: linux/amd64 + linux/arm64
+    - Triggers on main push (pai/** changes) and semver tags
+  - Extracted 18,879 training records (216 MB JSONL) from all 5 repos
+  - Created QLoRA fine-tuning script (`scripts/training/finetune_qlora.py`) with stratified sampling
+  - Created GGUF export script (`scripts/training/export_gguf.py`)
+  - Created Ollama Modelfile (`tools/ollama/Modelfile.cpsc-coder`) targeting Vivado 2025.2
+  - Installed Unsloth 2026.3.3 + PyTorch 2.6.0+cu124 in `.venv-train` (Python 3.12)
+  - Kicked off QLoRA training: 3,882 balanced samples, 3 epochs, reached epoch 2 with loss converging ~0.35-0.45
+- Commits: `0cadfaf` (pack + Docker + CI), training in progress
+- Status: Training running; RAG indexing and end-to-end test pending.
+
+---
+
+Session note – PIF whitepaper created (March 5, 2026)
+-----------------------------------------------------
+- Date: 2026-03-05
+- Context: Formal whitepaper for the Permission Infrastructure Forum (PIF).
+- New document: `docs/public/CPSC-Permission-Infrastructure-Whitepaper.md` (v1.0.0)
+- Summary: Positions CPSC as a computational model for permission infrastructure:
+  - Permission as the fundamental operation (not a check)
+  - Identity as first-class constraint variables
+  - Epoch-based authorized execution models
+  - Liability-grade deterministic logging via DoF records
+  - Concrete EV charging authorization example
+  - Hardware/edge deployment via constraint fabric
+  - Relationship to existing approaches (OAuth, ABAC, RBAC)
+- PDF: `docs-pdf/public/CPSC-Permission-Infrastructure-Whitepaper.pdf` (121.1 KB)
+- Status: Complete. Ready for PIF submission.
+
+---
+
 **LEDGER.md** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

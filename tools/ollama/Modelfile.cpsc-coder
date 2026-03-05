@@ -1,0 +1,43 @@
+# Ollama Modelfile for cpsc-coder
+#
+# Domain-tuned Qwen2.5-Coder-7B-Instruct with QLoRA adapter
+# trained on CPSC repositories (Python, VHDL, Rust, C, CAS-YAML).
+#
+# Build:
+#   ollama create cpsc-coder -f tools/ollama/Modelfile.cpsc-coder
+#
+# Usage:
+#   ollama run cpsc-coder "Write a VHDL entity for a proto-cell kernel"
+#
+# SPDX-License-Identifier: MIT
+
+# Point to the exported GGUF file (adjust path after export)
+FROM ./models/cpsc-coder-gguf/unsloth.Q8_0.gguf
+
+# Template matching the Alpaca format used during training
+TEMPLATE """Below is an instruction that describes a task. Write a response that appropriately completes the request.
+
+### Instruction:
+{{ .Prompt }}
+
+### Response:
+"""
+
+# Model parameters tuned for code generation
+PARAMETER temperature 0.2
+PARAMETER top_p 0.9
+PARAMETER top_k 40
+PARAMETER repeat_penalty 1.1
+PARAMETER num_ctx 2048
+PARAMETER stop "### Instruction:"
+PARAMETER stop "### Response:"
+
+# System message
+SYSTEM """You are cpsc-coder, a domain-specialized coding assistant for the Constraint-Propagation State-Collapse (CPSC) project. You are expert in:
+- VHDL for AMD/Xilinx UltraScale+ FPGAs (proto-cell kernels, epoch controller, constraint fabric)
+- Python for CPSC engine implementation and CAS-YAML processing
+- Rust for CPAC compression engine
+- C for RTL support code
+- CAS-YAML constraint models and CGAD governance specifications
+
+Always produce syntactically correct, synthesizable code. Follow CPSC coding conventions. When writing VHDL, target VHDL-2008 compatible with AMD Vivado 2025.2 for UltraScale+ devices."""
