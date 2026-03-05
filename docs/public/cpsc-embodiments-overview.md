@@ -315,4 +315,4 @@ conversational prompts and accepted code changes.
 
 ---
 
-**CPSC Embodiments Overview** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**CPSC Embodiments Overview** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

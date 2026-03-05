@@ -46,4 +46,4 @@ None of the documents here should be treated as specifications or legal filings.
 
 ---
 
-**Public Documentation README** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**Public Documentation README** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

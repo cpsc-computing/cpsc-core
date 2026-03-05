@@ -281,4 +281,4 @@ This document is the authoritative technical specification for CPSC.
 
 ---
 
-**CPSC-Specification.md** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**CPSC-Specification.md** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

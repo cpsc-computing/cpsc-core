@@ -85,4 +85,4 @@ This document is a **non-confidential technical and impact overview** meant for 
 
 ---
 
-**PQC Technical Overview for Grants** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**PQC Technical Overview for Grants** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

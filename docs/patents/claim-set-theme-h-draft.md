@@ -163,4 +163,4 @@ These are **not** final legal claims and MUST be reviewed and rewritten by couns
 
 ---
 
-**Claim Set Theme H Draft** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**Claim Set Theme H Draft** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

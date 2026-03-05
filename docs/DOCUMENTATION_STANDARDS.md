@@ -24,7 +24,7 @@ All Python files (`.py`) must include a copyright header at the top, before the 
 
 ```python
 # Copyright (c) 2026 BitConcepts, LLC
-# SPDX-License-Identifier: LicenseRef-CPAC-Research-Evaluation-1.0
+# SPDX-License-Identifier: LicenseRef-CPSC-Research-Evaluation-1.0
 #
 # This file is part of the [PROJECT_NAME].
 # For full license terms, see LICENSE in the repository root.
@@ -37,7 +37,7 @@ Module docstring here.
 **Template Variables:**
 - `[PROJECT_NAME]`: Replace with project name (e.g., "CPAC Engine", "CPSC Engine")
 - Date range: Update start year for new files, keep 2026 as end year
-- License ID: Use `LicenseRef-CPAC-Research-Evaluation-1.0` for all CPSC family projects
+- License ID: Use `LicenseRef-CPSC-Research-Evaluation-1.0` for all CPSC family projects
 
 ### Markdown Files
 
@@ -46,7 +46,7 @@ Documentation files (`.md`) should include copyright notice at the bottom:
 ```markdown
 ---
 
-**[Document Name]** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**[Document Name]** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0
 ```
 
 ### Configuration Files
@@ -55,7 +55,7 @@ For `.toml`, `.yaml`, `.json` configuration files with comments:
 
 ```toml
 # Copyright (c) 2026 BitConcepts, LLC
-# Licensed under CPAC Research & Evaluation License v1.0
+# Licensed under CPSC Research & Evaluation License v1.0
 ```
 
 ---
@@ -621,7 +621,7 @@ docs/
 
 ```python
 # Copyright (c) 2026 BitConcepts, LLC
-# SPDX-License-Identifier: LicenseRef-CPAC-Research-Evaluation-1.0
+# SPDX-License-Identifier: LicenseRef-CPSC-Research-Evaluation-1.0
 #
 # This file is part of the CPAC Engine.
 # For full license terms, see LICENSE in the repository root.
@@ -667,7 +667,7 @@ from typing import BinaryIO
 
 ```python
 # Copyright (c) 2026 BitConcepts, LLC
-# SPDX-License-Identifier: LicenseRef-CPAC-Research-Evaluation-1.0
+# SPDX-License-Identifier: LicenseRef-CPSC-Research-Evaluation-1.0
 #
 # This file is part of the CPAC Engine.
 # For full license terms, see LICENSE in the repository root.
@@ -714,4 +714,4 @@ This document should be:
 
 ---
 
-**DOCUMENTATION_STANDARDS.md** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**DOCUMENTATION_STANDARDS.md** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

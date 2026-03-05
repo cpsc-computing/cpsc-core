@@ -130,4 +130,4 @@ Use this section for higher-level notes (e.g., which companies/papers keep showi
 
 ---
 
-**PQC Prior Art Notes** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**PQC Prior Art Notes** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

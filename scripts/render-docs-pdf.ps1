@@ -1,5 +1,5 @@
 # Copyright (c) 2026 BitConcepts, LLC
-# SPDX-License-Identifier: LicenseRef-CPAC-Research-Evaluation-1.0
+# SPDX-License-Identifier: LicenseRef-CPSC-Research-Evaluation-1.0
 #
 # This file is part of the CPSC Specifications.
 # For full license terms, see LICENSE in the repository root.

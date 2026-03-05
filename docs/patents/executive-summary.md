@@ -141,4 +141,4 @@ Detailed specifications, filings, and claims are maintained separately.
 
 ---
 
-**Executive Summary** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**Executive Summary** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

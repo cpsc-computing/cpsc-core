@@ -232,4 +232,4 @@ The render scripts also support a test mode to verify Mermaid rendering without 
 
 ---
 
-**Patents Documentation README** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**Patents Documentation README** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

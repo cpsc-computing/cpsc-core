@@ -391,4 +391,4 @@ This section helps during **prosecution**.
 
 ---
 
-**Non-Provisional Outline** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**Non-Provisional Outline** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

@@ -914,4 +914,4 @@ flowchart LR
 
 ---
 
-**CPSC-CPAC Provisional Patent Application** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**CPSC-CPAC Provisional Patent Application** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

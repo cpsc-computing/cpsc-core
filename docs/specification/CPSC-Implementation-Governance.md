@@ -115,4 +115,4 @@ then the normative specifications above take precedence
 
 ---
 
-**CPSC-Implementation-Governance.md** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**CPSC-Implementation-Governance.md** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

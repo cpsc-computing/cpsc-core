@@ -69,4 +69,4 @@ List any required updates to examples, docs, or demos.
 
 ---
 
-**SPEC-CHANGE-TEMPLATE.md** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**SPEC-CHANGE-TEMPLATE.md** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

@@ -12,8 +12,8 @@ For complete documentation standards, see the canonical reference:
 
 - **Copyright Year**: 2026 (NO year ranges)
 - **Copyright Holder**: BitConcepts, LLC
-- **License**: CPAC Research & Evaluation License v1.0
-- **SPDX License Identifier**: LicenseRef-CPAC-Research-Evaluation-1.0
+- **License**: CPSC Research & Evaluation License v1.0
+- **SPDX License Identifier**: LicenseRef-CPSC-Research-Evaluation-1.0
 - **Project Name**: CPSC Specifications
 
 ---
@@ -25,7 +25,7 @@ For complete documentation standards, see the canonical reference:
 ```python
 #!/usr/bin/env python
 # Copyright (c) 2026 BitConcepts, LLC
-# SPDX-License-Identifier: LicenseRef-CPAC-Research-Evaluation-1.0
+# SPDX-License-Identifier: LicenseRef-CPSC-Research-Evaluation-1.0
 #
 # This file is part of the CPSC Specifications.
 # For full license terms, see LICENSE in the repository root.
@@ -39,7 +39,7 @@ For complete documentation standards, see the canonical reference:
 
 ```powershell
 # Copyright (c) 2026 BitConcepts, LLC
-# SPDX-License-Identifier: LicenseRef-CPAC-Research-Evaluation-1.0
+# SPDX-License-Identifier: LicenseRef-CPSC-Research-Evaluation-1.0
 #
 # This file is part of the CPSC Specifications.
 # For full license terms, see LICENSE in the repository root.
@@ -62,13 +62,13 @@ Add at the end of all markdown documentation files (except README.md and CONTRIB
 ```markdown
 ---
 
-**[Document Title]** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**[Document Title]** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0
 ```
 
 **Examples**:
-- `**CPSC-Specification.md** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0`
-- `**GLOSSARY.md** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0`
-- `**Executive Summary** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0`
+- `**CPSC-Specification.md** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0`
+- `**GLOSSARY.md** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0`
+- `**Executive Summary** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0`
 
 ---
 
@@ -105,8 +105,8 @@ When creating a new file in this repository:
 - [ ] **Python script**: Add copyright header after shebang, before docstring
 - [ ] **PowerShell script**: Add copyright header before `param()` block
 - [ ] **Markdown doc**: Add copyright footer at end of file
-- [ ] **Verify license**: Use CPAC Research & Evaluation License v1.0
-- [ ] **Verify SPDX ID**: Use `LicenseRef-CPAC-Research-Evaluation-1.0`
+- [ ] **Verify license**: Use CPSC Research & Evaluation License v1.0
+- [ ] **Verify SPDX ID**: Use `LicenseRef-CPSC-Research-Evaluation-1.0`
 - [ ] **Verify year**: Use 2026 (no ranges)
 - [ ] **Verify project name**: "CPSC Specifications"
 
@@ -153,4 +153,4 @@ Get-ChildItem docs -Recurse -Filter *.md | Where-Object { -not (Select-String -P
 
 ---
 
-**DOCUMENTATION_CHECKLIST.md** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**DOCUMENTATION_CHECKLIST.md** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

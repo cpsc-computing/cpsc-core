@@ -233,4 +233,4 @@ The CPSC binary format maps directly to RTL as a sequence of fixed-width registe
 
 ---
 
-**Binary-Format-RTL-Mapping.md** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**Binary-Format-RTL-Mapping.md** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

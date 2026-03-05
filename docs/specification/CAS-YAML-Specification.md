@@ -396,4 +396,4 @@ This document is the authoritative specification for CAS-YAML.
 
 ---
 
-**CAS-YAML-Specification.md** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**CAS-YAML-Specification.md** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

@@ -224,4 +224,4 @@ This document is an informal overview and does not describe or limit any particu
 
 ---
 
-**PQC Overview** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**PQC Overview** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

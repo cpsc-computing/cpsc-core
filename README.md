@@ -1,11 +1,19 @@
 # Constraint-Projected State Computing (CPSC)
 
+**Core specifications for the CPSC computing model**
+
 Constraint-Projected State Computing (CPSC) is a declarative computing model in which
 computation is performed by projecting system state onto explicit constraints,
 rather than executing ordered instructions.
 
 CPSC provides a foundation for deterministic, constraint-driven systems across
 software, compression, control systems, and hardware (FPGA / ASIC).
+
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/cpsc-computing/cpsc-core)
+[![License](https://img.shields.io/badge/license-Research%20%26%20Evaluation-orange.svg)](LICENSE)
+
+> ⚠️ **Status:** Research & Evaluation | **License:** CPSC Research & Evaluation License v1.0  
+> This repository is released for non-commercial research, evaluation, and educational purposes only. Commercial use requires a separate license. See LICENSE for full terms.
 
 ---
 
@@ -141,6 +149,27 @@ For a plain-language explanation, see `LEGAL-FAQ.md`.
 
 ---
 
+## Agent Quick Start
+
+This repository supports AI agent workflows with session commands.
+
+When starting a new conversation with an AI agent (Warp, Claude, etc.) in this
+repository, use the following prompt to establish context:
+
+```
+You are in the cpsc-core repository (CPSC specification). First read AGENTS.md
+and WARP.md, then execute the load session command as defined in AGENTS.md.
+```
+
+On startup, an agent SHOULD:
+1. Execute `load session` (read `AGENTS.md`, `WARP.md`, `docs/LEDGER.md`)
+2. Show context summary and current TODO list
+3. Wait for user to confirm or choose a task
+
+For full agent conventions and session behavior, see `AGENTS.md`.
+
+---
+
 ## Contact
 
 For research questions, discussion, or licensing inquiries,
@@ -148,4 +177,4 @@ contact BitConcepts, LLC.
 
 ---
 
-**CPSC Specifications** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**CPSC Specifications v1.0.0** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

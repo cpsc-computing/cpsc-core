@@ -150,4 +150,4 @@ End of FAQ
 
 ---
 
-**LEGAL-FAQ.md** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**LEGAL-FAQ.md** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

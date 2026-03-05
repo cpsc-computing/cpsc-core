@@ -543,4 +543,4 @@ This document should be reviewed periodically as:
 
 ---
 
-**Internal IP Playbook** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**Internal IP Playbook** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

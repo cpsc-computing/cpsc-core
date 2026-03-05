@@ -56,7 +56,7 @@ This security policy applies to:
 - CAS-YAML specification
 - CPSC binary format
 - RTL mapping guidance
-- Reference documentation in this repository
+- Reference documentation in this organization
 
 It does **not** apply to:
 - third-party implementations

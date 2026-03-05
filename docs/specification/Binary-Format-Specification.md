@@ -284,4 +284,4 @@ This document is the authoritative specification for the CPSC binary format.
 
 ---
 
-**Binary-Format-Specification.md** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**Binary-Format-Specification.md** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

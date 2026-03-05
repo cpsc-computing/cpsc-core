@@ -73,4 +73,4 @@ The execution layer that coordinates constraint solving, handles solver backends
 
 ---
 
-**GLOSSARY.md** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**GLOSSARY.md** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0

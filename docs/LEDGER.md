@@ -126,7 +126,7 @@ Session note – Documentation harmonization and repository reorganization (Febr
 - Date: 2026-02-19
 - Context: Applied canonical documentation standards and consolidated repository setup scripts for cross-platform support.
 - Changes completed:
-  - **Documentation Standards Harmonization**: Applied copyright headers (SPDX ID: LicenseRef-CPAC-Research-Evaluation-1.0) to 6 scripts (2 Python, 4 PowerShell); added/fixed copyright footers on 31 documentation files across docs/, docs/specification/, docs/public/, and docs/patents/; created docs/DOCUMENTATION_CHECKLIST.md as quick reference.
+  - **Documentation Standards Harmonization**: Applied copyright headers (SPDX ID: LicenseRef-CPSC-Research-Evaluation-1.0) to 6 scripts (2 Python, 4 PowerShell); added/fixed copyright footers on 31 documentation files across docs/, docs/specification/, docs/public/, and docs/patents/; created docs/DOCUMENTATION_CHECKLIST.md as quick reference.
   - **Repository Reorganization**: Moved scripts/.venv to .work/env for standardized location; removed unused files (scripts/__pycache__/, debug-patentsview.ps1, cgad_check.py, and JSON artifacts); consolidated setup-render-docs-env.ps1 and setup-ptab-mcp-for-warp.ps1 into unified setup.ps1 with parameters (-RenderTools, -UsptoMcp); moved setup.ps1 to repository root.
   - **Cross-Platform Support**: Created setup.sh (bash version for Linux/macOS); created scripts/render-docs-pdf.sh (bash version); fixed line endings (CRLF → LF) for bash scripts; updated documentation references in README.md, WARP.md, docs/patents/README.md.
   - **Enhanced .gitignore**: Added patterns for .work/, __pycache__/, *.pyc, venv/, and IDE artifacts.
@@ -239,4 +239,4 @@ Next action for Theme G (resume point):
 
 ---
 
-**LEDGER.md** | © 2026 BitConcepts, LLC | Licensed under CPAC Research & Evaluation License v1.0
+**LEDGER.md** | © 2026 BitConcepts, LLC | Licensed under CPSC Research & Evaluation License v1.0
