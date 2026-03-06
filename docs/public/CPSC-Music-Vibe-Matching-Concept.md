@@ -1,438 +1,407 @@
-# Constraint-Projected Music Structure Analysis for Vibe-Matching — Concept Paper
+# VibeProject — A Constraint-Projected Music Recommendation Engine
 
-**Version**: 0.1 (Concept Draft)
+**Version**: 0.1 (Draft)
 **Date**: March 2026
 **Author**: BitConcepts, LLC
 **Classification**: Business Confidential — Pre-Release
-**Status**: Exploratory concept — not yet implemented
 
 ---
 
 ## Abstract
 
-Current music recommendation systems rely on collaborative filtering ("people who liked X also liked Y") or manual tagging (Pandora's Music Genome Project). Neither approach models the structural relationships that define what listeners experience as a song's "vibe." This paper proposes applying Constraint-Projected State Computing (CPSC) to music structure analysis: extracting audio features from a reference track, expressing the desired vibe as a declarative constraint model in CAS-YAML, and using the CPSC-RE projection engine to find songs where all structural constraints are jointly satisfied. The result is a deterministic, explainable, composable vibe-matching system that operates on music structure — not social signals or subjective tags.
+VibeProject is a music recommendation engine that understands what makes songs *feel* alike — not by tracking what other listeners played, but by analyzing the structural DNA of music itself. It extracts audio features from a reference track, expresses the resulting "vibe" as a machine-executable constraint model, and uses a deterministic projection engine to find every song in a catalog that jointly satisfies those structural constraints.
 
-This concept represents a potential new embodiment of the CPSC computing model (U.S. Provisional Patent Application No. 63/980,251, filed February 11, 2026) applied to audio signal analysis and music information retrieval.
+The result: playlists that are structurally correct, not socially guessed. Every recommendation is explainable, deterministic, composable, and genre-agnostic.
+
+VibeProject is powered by two patented technologies from BitConcepts, LLC:
+- **CPSC** (Constraint-Projected State Computing) — U.S. Provisional Patent Application No. 63/980,251, filed February 11, 2026
+- **KANDELS** (phonetic encoding system) — US 2024/0248922 A1
 
 ---
 
-## 1. The Problem: Recommendation Is Not Understanding
+## 1. The Problem: Music Recommendation Is Broken
 
-### 1.1 How Music Recommendation Works Today
+### 1.1 Nobody Recommends by Structure
 
-The two dominant approaches to music recommendation share a fundamental limitation: neither actually analyzes what makes a song *feel* like another song.
+When you find a song that perfectly captures a mood — a late-night drive, a rainy afternoon, the energy of a packed room — and ask for more like it, every music platform gives you the same thing: songs that *other people* also listened to. Not songs that are structurally similar. Not songs that share the same groove, the same build, the same tension-and-release arc. Songs that share *listeners*.
 
-**Collaborative filtering** (Spotify, Apple Music, YouTube Music) models user behavior: listening history, skip rates, playlist co-occurrence, and social graph overlap. When Spotify recommends a song, it is saying "users with similar listening patterns also listened to this." It is not saying "this song has similar structural properties to what you're listening to." This approach fails systematically in several ways:
+This is collaborative filtering, and it powers Spotify, Apple Music, YouTube Music, and Amazon Music. It works well enough for mainstream tastes. It fails everywhere else:
 
-- **Cold start**: New releases and niche tracks have no behavioral data to learn from
-- **Popularity bias**: Well-known tracks dominate recommendations regardless of structural fit
-- **Genre imprisonment**: Cross-genre vibe matches (a jazz track with the same groove as an electronic track) are invisible to collaborative filtering
-- **Opacity**: No explanation is possible beyond "similar listeners liked this"
+- **New and niche tracks** have no listening data — the cold-start problem means the best match in the catalog might never surface
+- **Cross-genre vibe matches** are invisible — a jazz trio track with the same groove as an electronic track will never be recommended because the listener pools don't overlap
+- **Popularity dominates** — well-known tracks are recommended regardless of structural fit
+- **No explanation** — the system cannot tell you *why* it recommended a song, only that similar listeners played it
 
-**Manual tagging** (Pandora Music Genome Project) addresses some of these limitations by having trained musicologists annotate ~450 attributes per song. This produces better structural matching but is:
+Pandora's Music Genome Project tried to fix this by having trained musicologists tag ~450 attributes per song. Better — but expensive ($$$$ per song), subjective (analyst-dependent), unscalable (~2 million songs tagged vs. 100 million+ in modern catalogs), and still treats attributes as independent tags rather than structural relationships.
 
-- **Expensive**: Each song requires trained human analysis
-- **Subjective**: Different musicologists may tag differently
-- **Unscalable**: The Music Genome Project has analyzed ~2 million songs; Spotify's catalog exceeds 100 million
-- **Static**: Tags don't capture dynamic structural relationships (how attributes interact over the course of a song)
+### 1.2 What a "Vibe" Actually Is
 
-### 1.2 What "Vibe" Actually Is
+When a listener says "I want more songs with this vibe," they're not describing a list of independent attributes. They're describing a **constraint system** — a set of structural relationships that must all hold simultaneously:
 
-When a listener says "I want more songs with this vibe," they are describing a constraint system, not a point in feature space. A vibe is defined by **relationships between structural properties**:
-
-- A fast tempo + sparse arrangement = "chill groove"
-- A fast tempo + dense arrangement = "high energy"
+- Fast tempo + sparse arrangement = "chill groove"
+- Fast tempo + dense arrangement = "high energy"
 - Same tempo. Completely different vibe.
 
-The vibe is not in any single feature — it is in the **joint satisfaction of multiple structural constraints**. This is precisely what CPSC is designed to evaluate.
+The vibe lives in the *relationships between* features, not in any single feature. A mellow acoustic track and a death metal track can share the same tempo and key. No distance metric catches this. Constraints do.
 
-### 1.3 Why Vector Distance Fails
+### 1.3 Why Existing Approaches Can't Solve This
 
-The standard Music Information Retrieval (MIR) approach computes a feature vector per song and uses cosine similarity or k-nearest-neighbors to find similar tracks. This fails for vibe-matching because:
+| Approach | What It Actually Does | Why It Fails for Vibe |
+|----------|----------------------|----------------------|
+| Collaborative filtering (Spotify) | Correlates listener behavior | Doesn't analyze music structure at all |
+| Manual tagging (Pandora) | Human-assigned attribute labels | Expensive, subjective, doesn't capture relationships |
+| Feature vector + k-NN (standard MIR) | Computes distance in feature space | Treats features independently; no conditional logic |
+| AI/ML embeddings | Learns latent representations | Black box; non-deterministic; unexplainable |
 
-1. **Feature independence assumption**: Vector distance treats each feature as an independent dimension. But vibe is about conditional relationships — tempo matters differently depending on arrangement density, harmonic complexity, and vocal presence.
-
-2. **No hard boundaries**: Vector distance produces a smooth gradient. But some vibe distinctions are categorical: a mellow acoustic vibe should never return a death metal track, regardless of how close the tempo and key are. There is no distance threshold that captures this without also excluding valid matches.
-
-3. **No composability**: A listener cannot say "take this vibe but make it instrumental" by modifying a distance metric. They can by adding a constraint.
-
-4. **No explainability**: A distance score of 0.73 tells you nothing about *why* two songs are similar or different.
+None of these can express: "If the reference track has vocals, the candidate must also have vocals AND match the lyrical density AND the melodic contour should correlate." That's a conditional, joint constraint — and it's how humans actually think about vibe.
 
 ---
 
-## 2. The Proposed Solution: Constraint-Projected Vibe Matching
+## 2. How VibeProject Works
 
-### 2.1 Core Concept
+### 2.1 The Engine
 
-CPSC vibe-matching inverts the recommendation model:
+VibeProject inverts the recommendation model:
 
 ```
 TRADITIONAL:    Song → Feature Vector → Distance → Ranked List
-CPSC:           Song → Feature Extraction → Constraint Model → Projection → Playlist
+VIBEPROJECT:    Song → Feature Extraction → Constraint Model → Projection → Playlist
 ```
 
-A reference song is analyzed to extract structural features. These features define a constraint model — the "vibe specification." Every candidate song in the catalog is evaluated by the CPSC-RE projection engine against all constraints jointly. Songs that converge to a valid projected state are included in the playlist. Soft constraints rank them.
+1. **Analyze** a reference song to extract 30+ structural features across eight dimensions
+2. **Generate** a constraint model — the "vibe specification" — from those features
+3. **Project** every candidate song against all constraints *jointly* using the CPSC-RE engine
+4. **Accept** songs where all hard constraints are satisfied; **rank** by soft constraint optimization
+5. **Explain** every inclusion and exclusion with per-constraint evaluation detail
 
-The constraint model is the artifact: machine-executable, human-readable, version-controlled, composable, and deterministic.
+The constraint model is the core artifact: machine-executable, human-readable, version-controlled, composable, and deterministic. Same reference song + same constraints = same playlist. Always.
 
-### 2.2 Feature Extraction Layer
+### 2.2 What Gets Analyzed
 
-Audio features are extracted using established MIR tooling (librosa, essentia, madmom) and modern source separation (Demucs/HTDemucs). Features fall into eight categories:
+Audio features are extracted using established tooling (librosa, essentia, Demucs) and organized into eight structural dimensions:
 
-**Temporal**
-- Tempo (BPM) and tempo stability
-- Time signature
-- Beat grid regularity
-- Swing ratio (straight vs. shuffled feel)
+**Temporal** — Tempo (BPM), tempo stability, time signature, swing ratio
 
-**Spectral**
-- Spectral centroid (perceived brightness)
-- Spectral flux (rate of timbral change)
-- Frequency band energy distribution (sub-bass / bass / mid / presence / air)
-- Spectral rolloff (frequency below which N% of energy is concentrated)
+**Spectral** — Brightness (spectral centroid), timbral change rate (spectral flux), frequency band energy distribution across sub-bass / bass / mid / presence / air
 
-**Harmonic**
-- Key and mode (major / minor / modal)
-- Chord progression complexity (unique chords per section)
-- Harmonic rhythm (chord change rate)
-- Tonal tension curve (tension/resolution pattern over time)
+**Harmonic** — Key, mode (major/minor/modal), chord progression complexity, harmonic rhythm, tonal tension curve over time
 
-**Rhythmic**
-- Groove template (onset pattern per bar, extracted from percussion)
-- Syncopation index
-- Percussive density (hits per beat)
-- Rhythmic repetition period (how often the groove pattern repeats)
+**Rhythmic** — Groove template (onset pattern per bar), syncopation index, percussive density, rhythmic repetition period
 
-**Dynamic**
-- Loudness contour (energy curve across song sections)
-- Dynamic range (peak-to-average loudness ratio)
-- Compression profile (perceived loudness consistency)
+**Dynamic** — Loudness contour across sections, dynamic range, compression profile
 
-**Arrangement**
-- Instrument density over time (number of active layers per section)
-- Arrangement arc (sparse → dense → sparse progression)
-- Intro/outro length ratio
-- Section structure (verse/chorus/bridge pattern)
-- Vocal presence ratio (percentage of song with vocals)
+**Arrangement** — Instrument density over time, arrangement arc (how the song builds and releases), section structure, vocal presence ratio
 
-**Vocal** (when vocals are present)
-- Vocal register (bass / baritone / tenor / alto / soprano range)
-- Melodic contour shape (ascending / descending / static patterns)
-- Lyrical density (syllables per beat)
-- Phonetic rhythm pattern (consonant/vowel flow — potential KANDELS application)
+**Vocal** — Vocal register, melodic contour shape, lyrical density (syllables per beat), phonetic rhythm pattern
 
-**Psychoacoustic**
-- Perceived energy (composite of tempo, loudness, spectral flux)
-- Perceived warmth (low-mid frequency balance)
-- Perceived space (reverb amount, stereo width)
-- Perceived complexity (information density per unit time)
+**Psychoacoustic** — Perceived energy, warmth, space (reverb/stereo width), complexity
 
-### 2.3 Structural Decomposition via Source Separation
+### 2.3 Source Separation: Understanding the Arrangement
 
-Raw feature extraction on a mixed audio signal captures aggregate statistics. Source separation (Demucs, HTDemucs) decomposes a track into constituent layers — drums, bass, vocals, and other instruments — enabling analysis of how these layers interact over time.
+VibeProject doesn't just analyze the mixed signal — it decomposes each track into its constituent layers (drums, bass, vocals, other instruments) using state-of-the-art source separation (HTDemucs). This enables structural analysis of *how the arrangement works*:
 
-This is the difference between:
-- "These two songs have similar average spectral centroids" (aggregate)
-- "These two songs build tension the same way: sparse drums + bass foundation, then harmony enters at the same structural point, then vocals and texture layer in with the same density curve" (structural)
+- When each layer enters and exits
+- How layers interact and modulate each other over time
+- The arrangement's skeleton — its build/release pattern independent of specific instruments
 
-The **interaction network** between separated sources — when they enter, exit, how they modulate each other, their phase relationships — provides the arrangement's skeleton. Two songs can share an arrangement skeleton while differing in genre, instrumentation, and surface-level sound.
+This is the difference between "these songs have similar average brightness" and "these songs build tension the same way: drums and bass lay a sparse foundation, harmony enters at the same structural point, then vocals and texture layer in with the same density curve."
 
-### 2.4 Vibe as a CAS-YAML Constraint Model
+Two songs can share an arrangement skeleton while differing completely in genre, instrumentation, and surface-level sound. VibeProject finds these cross-genre vibe matches that no other system can.
 
-A vibe specification is expressed in CAS-YAML, the same declarative constraint format used across all CPSC applications:
+### 2.4 The Vibe Specification
+
+A vibe is expressed as a constraint model in CAS-YAML — the same declarative format used across all CPSC applications:
 
 ```yaml
 version: 1.0.0
 model_id: vibe_late_night_drive
 
-state:
-  variables:
-    # Reference song features (fixed — the vibe anchor)
-    - name: ref_bpm
-      type: float
-      role: fixed
-    - name: ref_energy
-      type: float
-      role: fixed
-    - name: ref_groove_template
-      type: vector
-      role: fixed
-    - name: ref_spectral_centroid
-      type: float
-      role: fixed
-    - name: ref_vocal_presence
-      type: float
-      role: fixed
-    - name: ref_arrangement_arc
-      type: vector
-      role: fixed
-
-    # Candidate song features (external — runtime inputs)
-    - name: cand_bpm
-      type: float
-      role: external
-    - name: cand_energy
-      type: float
-      role: external
-    - name: cand_groove_template
-      type: vector
-      role: external
-    - name: cand_spectral_centroid
-      type: float
-      role: external
-    - name: cand_vocal_presence
-      type: float
-      role: external
-    - name: cand_arrangement_arc
-      type: vector
-      role: external
-
-    # Decision variables (free — what the engine determines)
-    - name: include_in_playlist
-      type: bool
-      domain: [true, false]
-      role: free
-    - name: match_score
-      type: float
-      role: derived
-
 constraints:
-  # === Hard Constraints (non-negotiable vibe boundaries) ===
-
+  # === Hard: non-negotiable vibe boundaries ===
   - id: tempo_range
     type: hard
-    expression: "abs(cand_bpm - ref_bpm) / ref_bpm <= 0.12"
+    expression: "abs(candidate.bpm - reference.bpm) / reference.bpm <= 0.12"
     description: "Tempo within ±12% of reference"
 
-  - id: energy_floor
+  - id: energy_envelope
     type: hard
-    expression: "cand_energy >= ref_energy * 0.75"
-    description: "Energy must not drop below 75% of reference"
-
-  - id: energy_ceiling
-    type: hard
-    expression: "cand_energy <= ref_energy * 1.30"
-    description: "Energy must not exceed 130% of reference"
+    expression: "candidate.energy between reference.energy * 0.75 and reference.energy * 1.30"
+    description: "Energy stays within 75–130% of reference"
 
   - id: mode_compatibility
     type: hard
-    expression: "cand_mode in compatible_modes(ref_mode)"
+    expression: "candidate.mode in compatible_modes(reference.mode)"
     description: "Key/mode must be emotionally compatible"
 
-  # === Conditional Constraints (relationship-dependent) ===
-
-  - id: vocal_presence_match
+  # === Conditional: relationship-dependent ===
+  - id: vocal_match
     type: hard
-    expression: "if ref_vocal_presence > 0.5 then cand_vocal_presence > 0.3"
+    expression: "if reference.vocal_presence > 0.5 then candidate.vocal_presence > 0.3"
     description: "If reference has vocals, candidate should too"
 
-  - id: lyrical_flow_match
+  - id: lyrical_flow
     type: soft
     objective: minimize
     expression: >
-      if ref_vocal_presence > 0.5
-      then abs(cand_syllables_per_beat - ref_syllables_per_beat)
-    description: "Match lyrical flow rate when vocals present"
+      if reference.vocal_presence > 0.5
+      then abs(candidate.syllables_per_beat - reference.syllables_per_beat)
+    description: "Match lyrical flow rate when vocals are present"
 
-  # === Soft Constraints (ranked preferences) ===
-
-  - id: groove_similarity
+  # === Soft: ranked preferences ===
+  - id: groove_match
     type: soft
     objective: maximize
-    expression: "correlation(cand_groove_template, ref_groove_template)"
+    expression: "correlation(candidate.groove_template, reference.groove_template)"
     description: "Maximize rhythmic groove similarity"
 
-  - id: spectral_shape_match
-    type: soft
-    objective: minimize
-    expression: "euclidean(cand_band_energy, ref_band_energy)"
-    description: "Minimize timbral distance"
-
-  - id: arrangement_arc_match
+  - id: arrangement_arc
     type: soft
     objective: maximize
-    expression: "correlation(cand_arrangement_arc, ref_arrangement_arc)"
-    description: "Similar build/release structure over time"
+    expression: "correlation(candidate.arrangement_arc, reference.arrangement_arc)"
+    description: "Similar build/release structure"
 
-  - id: warmth_match
+  - id: timbral_distance
     type: soft
     objective: minimize
-    expression: "abs(cand_warmth - ref_warmth)"
+    expression: "euclidean(candidate.band_energy, reference.band_energy)"
+    description: "Minimize timbral distance"
+
+  - id: warmth
+    type: soft
+    objective: minimize
+    expression: "abs(candidate.warmth - reference.warmth)"
     description: "Similar perceived warmth"
 ```
 
-This is not pseudo-code. This is the specification format consumed by the CPSC-RE projection engine — the same engine used for compliance enforcement, access control, and all other CPSC applications.
+This is not pseudo-code. This is the actual specification consumed by the engine.
 
 ### 2.5 Composable Vibe Profiles
 
-CAS-YAML's file inclusion and override semantics enable layered vibe construction:
+Users build vibes by layering constraint profiles — the same way a chef builds a flavor profile by layering ingredients:
 
 ```yaml
 includes:
-  - vibes/late-night-drive.yaml       # base vibe from a reference song
-  - overlays/instrumental-only.yaml   # remove vocal requirement
-  - overlays/prefer-analog-warmth.yaml # bias toward warm, analog timbres
-  - overlays/higher-energy.yaml       # shift energy constraints up 20%
+  - vibes/late-night-drive.yaml         # base vibe from a reference song
+  - overlays/instrumental-only.yaml     # drop the vocal requirement
+  - overlays/prefer-analog-warmth.yaml  # bias toward warm, vintage timbres
+  - overlays/higher-energy.yaml         # shift energy constraints up 20%
 ```
 
-Users compose vibes the way compliance engineers compose regulatory frameworks — by layering base models with overlays. A "late-night drive" base vibe can be modified to "late-night drive but instrumental and warmer" without rebuilding the constraint model from scratch.
+"Late-night drive but instrumental and warmer" is a three-line overlay, not a new recommendation algorithm. Vibes are modular, shareable, and version-controlled.
 
-### 2.6 Projection and Playlist Generation
+### 2.6 Every Decision Is Explainable
 
-For each candidate song in the catalog:
+When VibeProject rejects a song, it tells you exactly why:
 
-1. **Extract features** (pre-computed and indexed)
-2. **Bind** candidate features to External variables in the constraint model
-3. **Project** — the CPSC-RE engine evaluates all constraints jointly
-4. **Accept/Reject** — hard constraint violations reject the candidate; soft constraints compute a match score
-5. **Rank** — accepted candidates are ordered by composite soft constraint satisfaction
-6. **Transcript** — every accept/reject decision is recorded with full constraint evaluation detail
+```
+REJECTED: "Track X" by Artist Y
+  ✗ tempo_range: candidate BPM 142 exceeds reference 98 by 44.9% (limit: 12%)
+  ✗ energy_envelope: candidate energy 0.91 exceeds ceiling 0.78 (130% of ref 0.60)
+  ✓ mode_compatibility: C major compatible with A minor (relative major)
+  ✓ groove_match: correlation 0.72
+```
 
-The result: a deterministic playlist where every included song provably satisfies all vibe constraints, ranked by structural similarity, with a complete explanation for every inclusion and exclusion.
+When it accepts a song, it tells you *how well* it matches:
 
----
+```
+ACCEPTED: "Track Z" by Artist W — match score: 0.87
+  ✓ tempo_range: 94 BPM vs 98 BPM reference (4.1%, within 12%)
+  ✓ energy_envelope: 0.58 within [0.45, 0.78]
+  ✓ groove_match: correlation 0.84
+  ✓ arrangement_arc: correlation 0.79
+  ✓ warmth: delta 0.06
+```
 
-## 3. KANDELS Application: Phonetic Lyrical Analysis
-
-The KANDELS phonetic encoding system (US 2024/0248922 A1) provides a novel approach to lyrical vibe-matching. Lyrics that *sound* similar often *feel* similar, independent of semantic meaning — this is a well-known property of songwriting (alliteration, assonance, and consonant patterns contribute to a song's feel).
-
-KANDELS maps the leading consonant sound of each word to a 3-bit symbol index (7 sound groups). Applied to lyrics:
-
-- Extract the phonetic symbol sequence of a song's lyrics
-- Compare phonetic rhythm patterns between songs (consonant density, vowel flow, alliterative frequency)
-- Match the *sonic texture* of lyrics, not their meaning
-- Two songs with similar phonetic patterns will have similar lyrical "mouth feel" — an underappreciated dimension of vibe
-
-This is a direct extension of KANDELS from its original text-encoding application to audio-domain phonetic pattern analysis.
+No other recommendation engine can do this. Spotify cannot tell you why it recommended a song. VibeProject can tell you why it recommended *or rejected* every song in the catalog.
 
 ---
 
-## 4. Differentiation from Existing Systems
+## 3. KANDELS: Phonetic Lyrical Analysis
 
-### 4.1 vs. Spotify / Apple Music (Collaborative Filtering)
+VibeProject includes a novel lyrical analysis layer powered by the KANDELS phonetic encoding system (US 2024/0248922 A1).
 
-| Property | Collaborative Filtering | CPSC Vibe-Matching |
-|----------|------------------------|-------------------|
-| What it analyzes | User behavior (listens, skips, playlists) | Song structure (audio features, arrangement) |
-| Cold start problem | Severe — new songs have no data | None — features extracted from audio directly |
-| Cross-genre matching | Poor — genre silos from user behavior | Native — structure-based, genre-agnostic |
-| Explainability | "Similar listeners liked this" | "Groove correlation 0.87, tempo within 8%, arrangement arc correlation 0.79" |
-| Determinism | No — session-dependent randomization | Yes — same inputs, same playlist, always |
-| User control | Thumbs up/down, skip | Modify constraint parameters, add/remove overlays |
+Lyrics that *sound* similar often *feel* similar, independent of what they mean. Alliteration, assonance, consonant patterns, and vowel flow contribute to a song's feel in ways that semantic analysis misses entirely. KANDELS captures this by mapping each word's leading consonant sound to a 3-bit symbol index across 7 sound groups.
 
-### 4.2 vs. Pandora Music Genome Project (Manual Tagging)
+Applied to lyrics, KANDELS enables:
+- Extraction of the phonetic symbol sequence of a song's lyrics
+- Comparison of phonetic rhythm patterns between songs (consonant density, vowel flow, alliterative frequency)
+- Matching the *sonic texture* of lyrics — how they feel in the mouth and ear — not their dictionary meaning
 
-| Property | Music Genome Project | CPSC Vibe-Matching |
-|----------|---------------------|-------------------|
-| Feature source | Human musicologist annotation | Automated audio feature extraction |
-| Cost per song | $$$$ (trained analyst time) | Compute only (seconds per song) |
-| Scalability | ~2M songs analyzed | Entire catalogs (100M+) feasible |
-| Subjectivity | Analyst-dependent | Deterministic extraction |
-| Relationship modeling | Independent attribute tags | Joint constraint satisfaction |
-| Composability | Not user-modifiable | Layered CAS-YAML profiles |
-
-### 4.3 vs. Standard MIR (Vector Distance)
-
-| Property | Feature Vector + k-NN | CPSC Vibe-Matching |
-|----------|----------------------|-------------------|
-| Feature relationships | Independent dimensions | Joint constraints with conditionals |
-| Hard boundaries | Smooth distance only | Hard + soft constraints |
-| Composability | Fixed distance metric | Layered, overridable constraint models |
-| Explainability | Distance score (opaque) | Per-constraint evaluation detail |
-| Conditional logic | Not expressible | Native ("if vocals present, then match flow rate") |
+Two songs with similar KANDELS phonetic patterns will have similar lyrical "feel" regardless of topic, language register, or vocabulary. This is an underappreciated dimension of vibe that no existing recommendation system addresses.
 
 ---
 
-## 5. Technical Feasibility
+## 4. Why VibeProject Is Different
 
-### 5.1 Component Readiness
+### 4.1 vs. Spotify / Apple Music
 
-| Component | Status | Difficulty |
-|-----------|--------|-----------|
-| Audio feature extraction (tempo, key, spectral) | Mature — librosa, essentia, madmom | Low |
-| Beat/groove template extraction | Well-studied MIR problem | Low–Medium |
-| Arrangement density / segmentation | Active research, good tools (MSAF, librosa) | Medium |
-| Source separation (vocals/drums/bass/other) | State of art — Demucs, HTDemucs | Low (off-the-shelf) |
-| CAS-YAML vibe constraint models | New — requires defining "vibe vocabulary" | Medium |
-| CPSC-RE projection over music features | Direct application of existing engine | Low |
-| KANDELS lyrical phonetic analysis | Novel extension of existing encoding | Medium |
-| Structural interaction network analysis | Novel — needs definition and validation | Medium–High |
-| Scalable indexing (millions of songs) | Pre-compute features; project on demand | Medium |
+| | Spotify | VibeProject |
+|---|---------|------------|
+| **Analyzes** | Listener behavior | Song structure |
+| **Cold start** | Can't recommend unknown songs | Analyzes audio directly — no listening data needed |
+| **Cross-genre** | Trapped in genre silos | Genre-agnostic — matches structural skeleton |
+| **Explainability** | None | Per-constraint evaluation for every song |
+| **Determinism** | Randomized per session | Same inputs → same playlist, always |
+| **User control** | Thumbs up/down | Modify constraint parameters, layer overlays |
 
-### 5.2 Proof-of-Concept Path
+### 4.2 vs. Pandora Music Genome Project
 
-A minimal viable demonstration could be built with existing technology:
+| | Pandora | VibeProject |
+|---|---------|------------|
+| **Feature source** | Human musicologist annotation | Automated audio extraction |
+| **Cost per song** | $$$$ (trained analyst) | Seconds of compute |
+| **Catalog scale** | ~2M songs | 100M+ feasible |
+| **Relationships** | Independent attribute tags | Joint constraint satisfaction |
+| **Composability** | Not user-modifiable | Layered, shareable vibe profiles |
 
-1. **Corpus**: 1,000–5,000 songs with genre diversity
-2. **Feature extraction**: librosa + Demucs, pre-computed and stored
+### 4.3 vs. AI/ML Embedding Models
+
+| | ML Embeddings | VibeProject |
+|---|--------------|------------|
+| **Transparency** | Black box latent space | Human-readable constraint model |
+| **Determinism** | Model-dependent, non-reproducible | Mathematically deterministic |
+| **Conditional logic** | Not expressible | Native ("if vocals present, then...") |
+| **User modification** | Retrain the model | Edit one constraint |
+| **Audit trail** | None | Full projection transcript |
+
+---
+
+## 5. Technical Architecture
+
+### 5.1 Pipeline
+
+```
+┌──────────────┐    ┌──────────────────┐    ┌──────────────────┐
+│  Reference   │───>│  Feature          │───>│  Vibe Constraint │
+│  Song        │    │  Extraction       │    │  Model (CAS-YAML)│
+└──────────────┘    │  (librosa/Demucs) │    └────────┬─────────┘
+                    └──────────────────┘             │
+                                                     ▼
+┌──────────────┐    ┌──────────────────┐    ┌──────────────────┐
+│  Candidate   │───>│  Pre-computed     │───>│  CPSC-RE         │
+│  Catalog     │    │  Feature Index    │    │  Projection      │
+└──────────────┘    └──────────────────┘    │  Engine          │
+                                             └────────┬─────────┘
+                                                      │
+                                             ┌────────▼─────────┐
+                                             │  Ranked Playlist │
+                                             │  + Transcripts   │
+                                             └──────────────────┘
+```
+
+### 5.2 Component Stack
+
+| Layer | Technology | Status |
+|-------|-----------|--------|
+| Audio feature extraction | librosa, essentia, madmom | Mature, open-source |
+| Source separation | HTDemucs (Meta) | State-of-the-art, open-source |
+| Beat/groove analysis | madmom, librosa | Well-established |
+| Arrangement segmentation | MSAF, librosa | Active research, good tools |
+| Lyrical phonetic analysis | KANDELS (patented) | Encoding proven; music application novel |
+| Constraint specification | CAS-YAML v1.0.0 (patented) | Published, stable |
+| Projection engine | CPSC-RE (patented) | Python ref impl working; Rust in development |
+| Transcript/audit | CPSC-RE Epoch Scheduler | Specified, implemented |
+
+### 5.3 Performance at Scale
+
+- **Feature extraction**: ~5–15 seconds per song; parallelizable, run once per catalog
+- **Feature storage**: ~2–5 KB per song (compressed); 100M songs = 200–500 GB
+- **Projection**: Sub-millisecond per candidate (Python); microseconds (Rust)
+- **Real-time workflow**: Pre-filter by cheap features (tempo, key), then project full constraint model on the reduced set
+- **Playlist generation**: <1 second for a 1,000-song catalog; <10 seconds for 100K with pre-filtering
+
+---
+
+## 6. Product Applications
+
+### 6.1 Consumer Playlist Engine
+
+The primary application: a listener plays a song, VibeProject generates a playlist of songs that structurally match the vibe. Available as:
+- Standalone mobile/web app
+- API integration for existing music platforms
+- Plugin for DJ software
+
+### 6.2 Sync Licensing & Music Supervision
+
+Film, TV, and advertising music supervisors search for songs that match a scene's mood. VibeProject translates scene requirements into structural constraints: tempo to match edit pace, energy to match scene intensity, arrangement arc to match narrative beat. Deterministic, explainable results replace hours of subjective searching.
+
+### 6.3 Music Production & A&R
+
+Producers and A&R teams analyze arrangement structure to understand *why* certain songs work. VibeProject's structural decomposition reveals the skeleton beneath the surface — informing production decisions, identifying market gaps, and discovering structurally similar reference tracks across genres.
+
+### 6.4 DJ & Live Performance
+
+Automated setlist construction based on structural flow constraints: energy curves, key compatibility, groove template continuity. Build a 2-hour set that follows a declared energy arc with smooth structural transitions — not just BPM matching.
+
+### 6.5 Music Therapy
+
+Evidence-based playlist construction using measurable structural properties. Define therapeutic constraint profiles (calming, energizing, focus-inducing) with specific tempo, dynamic range, and arrangement density parameters. Reproducible, auditable playlists for clinical settings.
+
+---
+
+## 7. Market Opportunity
+
+### 7.1 Market Size
+
+The global music streaming market exceeds **$40 billion annually** (growing ~10% CAGR). Recommendation quality is a primary competitive differentiator — Spotify, Apple Music, Amazon Music, YouTube Music, and Tidal all invest heavily in recommendation R&D.
+
+The sync licensing market (film/TV/advertising) exceeds **$5 billion annually**, with music search and discovery as a major cost center.
+
+The DJ/production tools market exceeds **$1 billion annually** and is growing with the creator economy.
+
+### 7.2 Business Model
+
+1. **API/SaaS** — Vibe-matching engine as a service for music platforms. Per-projection or per-seat pricing. Primary revenue stream.
+2. **Technology licensing** — License the engine to streaming platforms as a recommendation component. Enterprise contracts.
+3. **Standalone consumer app** — Direct-to-consumer vibe playlist application. Freemium model.
+4. **B2B sync licensing tool** — Constraint-based music search for film/TV/advertising professionals. Subscription pricing.
+5. **Production/DJ tools** — Structural analysis plugins for DAWs and DJ software. Per-license.
+
+---
+
+## 8. Intellectual Property
+
+### 8.1 Patent Coverage
+
+**CPSC** — U.S. Provisional Patent Application No. 63/980,251 (*Constraint-Projected State Computing Systems, Semantic System Specification, and Applications*), filed February 11, 2026. Covers the constraint projection computing model, CAS-YAML specification format, and the software/hardware engine architecture. The broad claims on constraint-projected state evaluation extend to audio feature matching as an application domain.
+
+**KANDELS** — US 2024/0248922 A1 (*System and Methods for Searching Text Utilizing Categorical Touch Inputs*), filed January 19, 2024. Covers the phonetic-to-symbol encoding system. Application to lyrical phonetic analysis in music represents a novel extension of this IP.
+
+### 8.2 Defensible Claims
+
+VibeProject's IP position combines:
+1. **The engine**: Constraint projection as the recommendation mechanism — not a solver invoked after-the-fact, but the way candidate evaluation occurs
+2. **The specification**: CAS-YAML vibe models as portable, composable, machine-executable constraint systems over audio features
+3. **The lyrical layer**: KANDELS phonetic encoding applied to lyrical pattern matching
+4. **The transcript**: Deterministic, replayable, explainable evaluation of every recommendation decision
+
+Competitors would need to independently develop a constraint projection engine, a declarative audio constraint specification format, and a phonetic lyrical analysis system — then make them work together. The dual-patent moat (CPSC + KANDELS) makes this difficult to design around.
+
+---
+
+## 9. Proof-of-Concept Plan
+
+A minimal viable demonstration:
+
+1. **Corpus**: 1,000–5,000 songs with genre diversity (public domain or licensed catalog)
+2. **Feature extraction**: librosa + HTDemucs, pre-computed and indexed
 3. **Vibe profiles**: 5–10 hand-authored CAS-YAML constraint models covering distinct vibes (late-night drive, workout energy, rainy afternoon, deep focus, summer cookout)
 4. **Engine**: Existing Python CPSC-RE reference implementation
-5. **Evaluation**: Blind A/B test against Spotify Radio playlists from the same seed songs
+5. **Evaluation**: Blind A/B test against Spotify Radio playlists generated from the same seed songs — human evaluators rate "vibe match" quality
 6. **Timeline**: 2–4 weeks with existing tooling
-
-### 5.3 Scaling Considerations
-
-- Feature extraction: ~5–15 seconds per song on commodity hardware; parallelizable
-- Feature storage: ~2–5 KB per song (compressed feature vectors); 100M songs = 200–500 GB
-- Projection: sub-millisecond per candidate on the Python engine; microseconds on Rust
-- Real-time use case: Pre-filter by cheap features (tempo, key), then project against full constraint model on the reduced set
+7. **Success criteria**: VibeProject playlists rated as equal or better vibe match in ≥60% of blind comparisons
 
 ---
 
-## 6. Intellectual Property Considerations
+## 10. Summary
 
-### 6.1 Existing Coverage
+Music recommendation has been solved for popularity. It has not been solved for *vibe*.
 
-U.S. Provisional Patent Application No. 63/980,251 covers the CPSC computing model broadly, including constraint projection as the primary computation mechanism, CAS-YAML as the specification format, and the software/hardware engine architecture. The broad claims on constraint-projected state evaluation may extend to audio feature matching as an application domain.
+VibeProject is the first recommendation engine that models vibe as what it actually is: a joint constraint system over music structure. It analyzes the structural DNA of a reference track — tempo, groove, arrangement arc, spectral shape, vocal characteristics, lyrical phonetics — and finds every song in a catalog that jointly satisfies those structural constraints. No social signals. No black-box embeddings. No subjective tags.
 
-### 6.2 Potential Additional Claims
+Every recommendation is deterministic, explainable, composable, and genre-agnostic. Users describe vibes in constraints, not keywords. Playlists are structurally correct, not socially guessed.
 
-A music/audio-specific embodiment could strengthen the non-provisional filing with claims targeting:
-
-- Constraint-projected audio feature matching for music recommendation
-- Declarative vibe specification as a CAS-YAML constraint model
-- Composable vibe profiles via constraint model layering
-- Phonetic lyrical pattern analysis using KANDELS encoding for music similarity
-- Structural arrangement network analysis for cross-genre vibe matching
-- Deterministic, explainable playlist generation via constraint projection transcripts
-
-### 6.3 KANDELS Extension
-
-The KANDELS patent (US 2024/0248922 A1) covers phonetic-to-symbol mapping. Applying this encoding to lyrical analysis in music represents a novel application that could be documented as an extension of the existing IP.
-
----
-
-## 7. Market Context
-
-### 7.1 Music Streaming Market
-
-The global music streaming market exceeds $40 billion annually and is growing ~10% CAGR. Recommendation quality is a primary competitive differentiator — Spotify, Apple Music, Amazon Music, YouTube Music, and Tidal all invest heavily in recommendation systems.
-
-### 7.2 Potential Applications
-
-- **Consumer music platforms**: Vibe-based playlist generation as a feature or API
-- **Content licensing**: Match music to video/film/advertising moods programmatically
-- **Music production**: Analyze arrangement structure to inform songwriting and production decisions
-- **DJ/live performance**: Automated setlist construction based on structural flow constraints
-- **Sync licensing**: Match songs to visual content based on structural constraints (tempo to edit pace, energy to scene intensity)
-- **Music therapy**: Evidence-based playlist construction using measurable structural properties
-
-### 7.3 Business Model Options
-
-1. **API/SaaS**: Vibe-matching engine as a service for music platforms ($X per M projections)
-2. **Technology licensing**: License to streaming platforms as a recommendation engine component
-3. **Standalone product**: Consumer-facing "vibe playlist" application
-4. **B2B sync licensing tool**: Constraint-based music search for film/TV/advertising
-
----
-
-## 8. Summary
-
-Music recommendation today is built on social signals (collaborative filtering) or expensive human judgment (manual tagging). Neither approach models the structural relationships that define a listener's experience of "vibe." CPSC provides the missing mechanism: a vibe is a constraint system over audio structure variables, and constraint projection finds songs where all structural relationships are jointly satisfied.
-
-The technical components are largely mature: audio feature extraction, source separation, and beat analysis are well-established fields. The novel contribution is the constraint projection layer — expressing vibe as a declarative, composable, machine-executable specification and using deterministic projection to generate explainable, reproducible playlists.
-
-**A vibe is not a point in feature space. It is a region defined by structural constraints. CPSC finds everything in that region.**
+**A vibe is not a point in feature space. It is a region defined by structural constraints. VibeProject finds everything in that region.**
 
 ---
 
@@ -440,13 +409,10 @@ The technical components are largely mature: audio feature extraction, source se
 
 1. U.S. Provisional Patent Application No. 63/980,251, *Constraint-Projected State Computing Systems, Semantic System Specification, and Applications*, filed February 11, 2026
 2. US 2024/0248922 A1 — "System and Methods for Searching Text Utilizing Categorical Touch Inputs" (Merkur/KANDELS), Filed Jan. 19, 2024
-3. CPSC Specification — `docs/specification/CPSC-Specification.md`
-4. CAS-YAML Specification v1.0.0 — `docs/specification/CAS-YAML-Specification.md`
-5. McFee, B. et al. — librosa: Audio and Music Signal Analysis in Python
-6. Défossez, A. et al. — Hybrid Transformers for Music Source Separation (HTDemucs)
-7. Nieto, O. & Bello, J. P. — Music Segment Similarity and Structure (MSAF)
-8. Spotify Engineering Blog — recommendation system architecture
-9. Pandora Media — The Music Genome Project methodology
+3. CAS-YAML Specification v1.0.0 — `docs/specification/CAS-YAML-Specification.md`
+4. McFee, B. et al. — librosa: Audio and Music Signal Analysis in Python
+5. Défossez, A. et al. — Hybrid Transformers for Music Source Separation (HTDemucs)
+6. Nieto, O. & Bello, J. P. — Music Segment Similarity and Structure (MSAF)
 
 ---
 
